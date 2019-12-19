@@ -1,0 +1,21 @@
+import React, { Component } from 'react'
+import { Text, View,StyleSheet } from 'react-native'
+
+ class Screen3 extends Component {
+   
+        render() {  
+            return (  
+                <View style={styles.container}>  
+                    <Text>Image Screen</Text>  
+                </View>  
+            );  
+        }  
+    }  
+    const styles = StyleSheet.create({  
+        container: {  
+            flex: 1,  
+            justifyContent: 'center',  
+            alignItems: 'center'  
+        },  
+    });  
+    export default  Screen3
