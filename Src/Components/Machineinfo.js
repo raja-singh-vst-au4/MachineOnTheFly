@@ -59,8 +59,8 @@ class Machineinfo extends Component {
         method :'GET',
         withCredentials: true,
         headers: {
-          "username":this.state.data.username
-      
+          "username":this.state.data.username,
+          "x-api-key":"T3j5MxdObG4APiIfwsq7H6C6bym8dNzG63SaqeNO"
           }
     })
      .then((response) => response.json())
@@ -93,6 +93,7 @@ click2=()=>
     method: 'POST',
     headers: {
     "Content-Type": "application/json",
+    "x-api-key":"T3j5MxdObG4APiIfwsq7H6C6bym8dNzG63SaqeNO"
     },
     body: JSON.stringify({
               "username":this.state.data.username,

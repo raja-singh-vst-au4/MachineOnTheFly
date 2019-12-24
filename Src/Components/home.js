@@ -15,6 +15,7 @@ class Home extends React.Component
        Openmachineip:'12.024.100.020',
        isLoading:true,
        data:'',
+       disabled:false
       
     }
   }
@@ -27,7 +28,7 @@ class Home extends React.Component
     if (value) {
     let userData = JSON.parse(value);
   
-    this.setState({ data: userData }, () => {
+    this.setState({ data: userData ,disabled:false}, () => {
   
     
   
@@ -44,24 +45,32 @@ class Home extends React.Component
       method: 'POST',
       headers: {
           "Content-Type": "application/json",
+          "x-api-key":"T3j5MxdObG4APiIfwsq7H6C6bym8dNzG63SaqeNO"
       },
       body: JSON.stringify({
           "username":this.state.data.username,
           "status_on":this.state.machinestatus}),
   }
   return fetch(apiMachine, data)
+
       .then(response => {
+       
+
           // console.log(response.status)
           if (response.status == 200) {
-              return response.json();
+            this.setState({disabled:true},()=>{
+            
+              return response.json();})
           }
+            
+          
       })
       .then(responseJson => {
           let str = responseJson;
-       
+        
 
-          if(str.status=="Machine off"){
-              this.setState({ machinestatus:"onn"}, () => {
+          if(str.status=="machine on"){
+              this.setState({ machinestatus:"off",disabled:false}, () => {
                   
                     // Alert.alert(
                     //     'Unable to fetch detail',
@@ -73,12 +82,12 @@ class Home extends React.Component
                     // );
                     // this.user.current.clear();
                     // this.passwd.current.clear();
-                    console.log(this.state.machinestatus)
+                 
                 })
           }
-         else if(str.status=="Machine onn")
+         else 
           {
-            this.setState({ machinestatus:"onn"},() => {
+            this.setState({ machinestatus:"on",disabled:false},() => {
               console.log(this.state.machinestatus)
             })
           }
@@ -117,11 +126,12 @@ class Home extends React.Component
                  Current Machine Status
                </Text>
                <Text style={{fontWeight:"bold",fontSize:20}}>
-                 {(this.state.machinestatus === "on")?"On":(this.state.machinestatus === 2)?"Pending":"Off"}
+                 {(this.state.machinestatus === "on")?"On":"Off"}
                </Text>
              </View>
              <View style = {{alignSelf:'center',paddingTop:12,color:'blue'}}>
                     <TouchableOpacity style={styles.button}
+                    disabled={this.state.disabled}
                     onPress={()=>this.statusCall()}
                             >
                    

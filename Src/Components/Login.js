@@ -32,6 +32,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
+                        "x-api-key":"T3j5MxdObG4APiIfwsq7H6C6bym8dNzG63SaqeNO"
                     },
                     body: JSON.stringify({
                         "username":this.state.username,
@@ -46,31 +47,40 @@ import Icon from 'react-native-vector-icons/AntDesign';
                     })
                     .then(responseJson => {
                         let str = responseJson;
-                     
+                     console.log(str)
 
-                        if(str===undefined){
-                            this.setState({ isLoading: false}, () => {
-                                
-                                  Alert.alert(
-                                      'Unable to fetch detail',
-                                      "Please retry again after some time",
-                                      [
-                                          { text: 'OK', onPress: () =>console.log("") },
-                                      ],
-                                      { cancelable: false },
-                                  );
-                                  this.user.current.clear();
-                                  this.passwd.current.clear();
-                              })
-                        }
-                  
-                        else  {
+                        if(str.success===true){
 
                             this.setState({ isLoading: false,asyncUserInfo:str }, () => {
                                 this.storeToken()
                                 this.user.current.clear();
                                   this.passwd.current.clear();
                                 
+                            })
+                            
+                        }
+                  
+                        else  {
+
+                            // this.setState({ isLoading: false,asyncUserInfo:str }, () => {
+                            //     this.storeToken()
+                            //     this.user.current.clear();
+                            //       this.passwd.current.clear();
+                                
+                            // })
+                            this.setState({ isLoading: false}, () => {
+                                
+                                
+                                Alert.alert(
+                                    'Unable to fetch detail',
+                                    "Please retry again after some time",
+                                    [
+                                        { text: 'OK', onPress: () =>console.log("") },
+                                    ],
+                                    { cancelable: false },
+                                );
+                                this.user.current.clear();
+                                this.passwd.current.clear();
                             })
                         } 
                     })
